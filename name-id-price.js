@@ -10,9 +10,9 @@ function currencyFormat(num, currency) {
 // get all varaiables
 var itemName = GetValueByApiName("ItemName");
 var itemExId = GetValueByApiName("ItemExternalID");
-var unitPriceAfterDiscount = UnitPriceAfterDiscount; // UnitPriceAfterDiscount is in the Available Fields!!!
+var _unitPriceAfterDiscount = UnitPriceAfterDiscount; // UnitPriceAfterDiscount is in the Available Fields!!!
 var currency = GetValueByApiName("Transaction.Currency");
-var formattedPrice = currencyFormat(unitPriceAfterDiscount, currency);
+var formattedPrice = currencyFormat(_unitPriceAfterDiscount, currency);
 
 
 // the following html is for a 4 rows configured field 
