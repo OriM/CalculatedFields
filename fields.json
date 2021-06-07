@@ -1,0 +1,124 @@
+[
+    {
+        "FieldID": "TSABoldPrice",
+        "Label": "Bold Price",
+        "Description": "",
+        "IsUserDefinedField": true,
+        "UIType": {
+            "ID": 56,
+            "Name": "RichTextHTML"
+        },
+        "Type": "String",
+        "Format": "String",
+        "CalculatedRuleEngine": {
+            "JSFormula": "var html = '<p class=\"body-md\" style=\"text-align : right;\"><strong>{{Currency}}{{ItemPrice}}</strong></p>';\n\nvar currency = GetValueByApiName(\"Transaction.Currency\");\n\nvar res = html;\nres = res.replace(\"{{ItemPrice}}\",ItemPrice);\nres = res.replace(\"{{Currency}}\",currency);\n\nreturn res; ",
+            "ParticipatingFields": [
+                "ItemPrice"
+            ],
+            "CalculatedOn": {
+                "ID": 3,
+                "Name": "OnDemand"
+            },
+            "Temporary": true
+        }
+    },
+    {
+        "FieldID": "TSAInfoParagraph",
+        "Label": "Info Paragraph",
+        "Description": "",
+        "IsUserDefinedField": true,
+        "UIType": {
+            "ID": 3,
+            "Name": "TextArea"
+        },
+        "Type": "String",
+        "Format": "String",
+        "CalculatedRuleEngine": {
+            "JSFormula": "var html = `<h1 class=\"title-4xl\"><strong>{{APIPRODUCTNAME}}</strong></h1><p class=\"body-md\">Brand: <span style=\"color: #ff0000;\"><strong>{{APIBRAND}}</strong></span></p><p class=\"body-md\">Product Code: <span style=\"color: #ff0000;\"><strong>{{APIPRODUCTCODE}}</strong></span></p><p class=\"body-md\">List Price: <span style=\"color: #ff0000;\"><strong>{{APILISTPRICE}}</strong></span></p><h2 class=\"title-xl\"><strong>Product Details</strong></h2><p>{{APIPRODUCTDETAILS}}</p>`;\n\nvar res = html;\nres = res.replace(\"{{APIPRODUCTNAME}}\",ItemCode);\nres = res.replace(\"{{APIBRAND}}\",ItemMainCategory);\nres = res.replace(\"{{APIPRODUCTCODE}}\",ItemName);\nres = res.replace(\"{{APILISTPRICE}}\",ItemPrice);\nres = res.replace(\"{{APIPRODUCTDETAILS}}\",ItemTSABullets);\n\nreturn res;",
+            "ParticipatingFields": [
+                "ItemCode",
+                "ItemMainCategory",
+                "ItemName",
+                "ItemPrice",
+                "ItemTSABullets"
+            ],
+            "CalculatedOn": {
+                "ID": 1,
+                "Name": "Always"
+            },
+            "Temporary": false
+        }
+    },
+    {
+        "FieldID": "TSAnameidprice",
+        "Label": "name-id-price",
+        "Description": "",
+        "IsUserDefinedField": true,
+        "UIType": {
+            "ID": 56,
+            "Name": "RichTextHTML"
+        },
+        "Type": "String",
+        "Format": "String",
+        "CalculatedRuleEngine": {
+            "JSFormula": "// Medium card\n\n// a function to format a number and a currency symbol to something like \"$21.95\"\n// note that this function puts the currency symbol on the left of the number \n// the currency symbol is trimmed of whitespaces\nfunction currencyFormat(num, currency) {\n  return currency.trim()+ num.toFixed(2).replace(/(\\d)(?=(\\d{3})+(?!\\d))/g, \"$1,\");\n}\n\n// get all varaiables\nvar itemName = GetValueByApiName(\"ItemName\");\nvar itemExId = GetValueByApiName(\"ItemExternalID\");\nvar _unitPriceAfterDiscount = UnitPriceAfterDiscount; // UnitPriceAfterDiscount is in the Available Fields!!!\nvar currency = GetValueByApiName(\"Transaction.Currency\");\nvar formattedPrice = currencyFormat(_unitPriceAfterDiscount, currency);\n\n\n// the following html is for a 4 rows configured field \n// validated both on web app & mobile 16.50\n\n// change h3 color value to match desired color\n// change -webkit-line-clamp to match the number of max rows for item name text\n\nvar html = `<div style=\"font-size: 16px; margin: 0; padding: 0; text-align: center;\"> \n            <h3 style=\" margin-bottom: 0.3em; \n                        color: #78aa00;  \n                        font-size: 1.6em; \n                        line-height: 1.2em; \n                        font-weight: bolder; \n                        display: -webkit-box; \n                        -webkit-line-clamp: 2; \n                        -webkit-box-orient: vertical; \n                        overflow: hidden; \n                        text-overflow: ellipsis; \n                        margin-top: 0;\" >\n            {{ItemName}}</h3>\n            <p style=\"margin-bottom: 0.5em; margin-top: 0;\" > {{ItemExternalID}} </p>\n            <p style=\"font-weight: bolder; margin-top: 0;\" > {{UnitPriceAfterDiscount}} </p>\n            </div>`;\n\nvar res = html;\nres = res.replace(\"{{ItemName}}\", itemName);\nres = res.replace(\"{{ItemExternalID}}\", itemExId);\nres = res.replace(\"{{UnitPriceAfterDiscount}}\", formattedPrice);\n\nreturn res;",
+            "ParticipatingFields": [
+                "UnitPriceAfterDiscount"
+            ],
+            "CalculatedOn": {
+                "ID": 3,
+                "Name": "OnDemand"
+            },
+            "Temporary": true
+        }
+    },
+    {
+        "FieldID": "TSAStockFormatted",
+        "Label": "StockFormatted",
+        "Description": "",
+        "IsUserDefinedField": true,
+        "UIType": {
+            "ID": 56,
+            "Name": "RichTextHTML"
+        },
+        "Type": "String",
+        "Format": "String",
+        "CalculatedRuleEngine": {
+            "JSFormula": "var inStock = '<p><span style=\"color: #339966;\">In Stock</span></p>';\nvar lowStock = '<p><span style=\"color: #ff9900;\">Low Stock</span></p>';\nvar outStock = '<p><span style=\"color: #ff0000;\">Out of Stock</span></p>';\n    \nvar res = inStock;\n\nif (ItemTSAInventory <= 10) \n{\n  res = lowStock;\n}\nif (ItemTSAInventory == 0) \n{\n  res = outStock;\n}\n\nreturn res;",
+            "ParticipatingFields": [
+                "ItemTSAInventory"
+            ],
+            "CalculatedOn": {
+                "ID": 3,
+                "Name": "OnDemand"
+            },
+            "Temporary": true
+        }
+    },
+    {
+        "FieldID": "TSAFormattedDescription",
+        "Label": "Formatted Description",
+        "Description": "",
+        "IsUserDefinedField": true,
+        "UIType": {
+            "ID": 56,
+            "Name": "RichTextHTML"
+        },
+        "Type": "String",
+        "Format": "String",
+        "CalculatedRuleEngine": {
+            "JSFormula": "var html = '<p class=\"body-md\"><a href=\"https://david.millori.me\"><strong class=\"color-link\">{{ItemCode}} - {{ItemLongDescription}} - {{ItemMainCategory}} - {{ItemName}}</strong></a></p>';\n\nvar res = html;\nres = res.replace(\"{{ItemCode}}\",ItemCode);\nres = res.replace(\"{{ItemLongDescription}}\",ItemLongDescription);\nres = res.replace(\"{{ItemMainCategory}}\",ItemMainCategory);\nres = res.replace(\"{{ItemName}}\",ItemName);\n\nreturn res;",
+            "ParticipatingFields": [
+                "ItemCode",
+                "ItemLongDescription",
+                "ItemMainCategory",
+                "ItemName"
+            ],
+            "CalculatedOn": {
+                "ID": 3,
+                "Name": "OnDemand"
+            },
+            "Temporary": true
+        }
+    }
+]
