@@ -141,5 +141,26 @@
             },
             "Temporary": true
         }
+    },
+    {
+        "FieldID": "TSARelatedObjectsFieldTest",
+        "Label": "Related Objects",
+        "Description": "",
+        "IsUserDefinedField": true,
+        "UIType": {
+            "ID": 54,
+            "Name": "RelatedObjectsCards"
+        },
+        "Type": "String",
+        "Format": "String",
+        "CalculatedRuleEngine": {
+            "JSFormula": "",
+            "ParticipatingFields": [],
+            "CalculatedOn": {
+                "ID": 3,
+                "Name": "OnDemand"
+            },
+            "Temporary": true
+        }
     }
 ]
