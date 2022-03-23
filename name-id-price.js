@@ -23,7 +23,7 @@ var formattedPrice = currencyFormat(_unitPriceAfterDiscount, currency);
 
 var html = `<div style="font-size: 16px; margin: 0; padding: 0; text-align: center;"> 
             <h3 style=" margin-bottom: 0.3em; 
-                        color: #78aa00;  
+                        color: hsl(var(--pep-color-user-primary-h), var(--pep-color-user-primary-s), var(--pep-color-user-primary-l));  
                         font-size: 1.6em; 
                         line-height: 1.2em; 
                         font-weight: bolder; 
